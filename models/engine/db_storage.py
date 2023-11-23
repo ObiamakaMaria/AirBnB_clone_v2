@@ -32,24 +32,23 @@ class DBStorage:
 		    ),
 		pool_pre_ping=True
 		) 
-    if getenv("HBNB_ENV") == "test":
-        Base.metadata.drop_all(self.__engine)
+        if getenv("HBNB_ENV") == "test":
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ method to query on current db session """
         if cls is None:
-            obj = self.__session.query(State).all()
-            obj.extend(self.__session.query(City).all())
-            obj.extend(self.__session.query(User).all())
-            obj.extend(self.__session.query(Place).all())
-            obj.extend(self.__session.query(Review).all())
-            obj.extend(self.__session.query(Amenity).all())
+            obj = []
+            for model in [State, City, User, Place, Review, Amenity]:
+                try:
+                   obj.extend(self.__session.query(model).all())
+                except Exception as e:
+                   print(f"Error querying {model.__name__}: {e}")
         else:
             if type(cls) == str:
                 cls = eval(cls)
             obj = self.__session.query(cls)
-        result = {"{}.{}".format(type(v).__name__, v.id): v for v in obj}
-        return result
+        return {"{}.{}".format(type(v).__name__, v.id): v for v in obj}
 
     def new(self, obj):
         """ Method Add obj to the current db session"""
