@@ -25,7 +25,8 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
         if kwargs:
             for k, v in kwargs.items():
                 if k == "created_at" or k == "updated_at":
@@ -41,8 +42,8 @@ class BaseModel:
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
-        self.updated_at = datetime.now()
-        models.storage.new(self)
+        self.updated_at = datetime.utcnow()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
@@ -52,8 +53,7 @@ class BaseModel:
         dictionary.update({'__class__':
             (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
-        if self.updated_at:
-            dictionary['updated_at'] = self.updated_at.isoformat()
+        dictionary['updated_at'] = self.updated_at.isoformat()
         dictionary.pop("_sa_instance_state", None)
         return dictionary
 

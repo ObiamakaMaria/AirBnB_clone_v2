@@ -144,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
         for vl in lst:
             if hasattr(new_instance, vl[0]):
                 setattr(new_instance, vl[0], vl[1])
-        storage.save()
+        storage.new(new_instance)
         print(new_instance.id)
         storage.save()
 
