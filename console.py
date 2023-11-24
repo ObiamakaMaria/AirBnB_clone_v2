@@ -231,7 +231,6 @@ class HBNBCommand(cmd.Cmd):
             line = args.split(" ")
             if line[0] not in HBNBCommand.classes:
                 raise NameError()
-
             o = storage.all(eval(line[0]))
             print([o[k].__str__() for k in o])
 
