@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module instantiates an object of class FileStorage and DBStorage"""
-from  os import getenv
+from os import getenv
 
 
 if getenv("HBNB_TYPE_STORAGE") == "db":

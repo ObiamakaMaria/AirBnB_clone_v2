@@ -5,7 +5,6 @@ from os import getenv
 from models.base_model import BaseModel
 from models.base_model import Base
 from sqlalchemy import Column, String
-from models.city import City
 from sqlalchemy.orm import relationship
 
 

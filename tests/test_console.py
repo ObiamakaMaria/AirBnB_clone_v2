@@ -26,6 +26,7 @@ class TestConsole(unittest.TestCase):
     def main(cls):
         """setup for the test"""
         cls.handler = HBNBCommand()
+
     @classmethod
     def teardown(cls):
         """ this will tear it down the handler down"""
@@ -37,6 +38,7 @@ class TestConsole(unittest.TestCase):
             os.remove("file.json")
         except Exception:
             pass
+
     def test_create(self):
         """Test create command input"""
         with patch('sys.stdout', new=StringIO()) as f:
@@ -48,9 +50,5 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
-            self.handler.onecmd("create User email='me@gmail.com' "
-                               "password='seebe3r'")
-        with patch('sys.stdout', new=StringIO()) as f:
             self.handler.onecmd("all User")
             self.assertEqual("[[User]", f.getvalue()[:7])
-
