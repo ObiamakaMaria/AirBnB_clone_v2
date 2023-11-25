@@ -114,39 +114,43 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        """Creates a new instance of BaseModel, saves it
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
+        """
+        try:
+            if not args:
+                raise SyntaxError()
+            my_list = args.split(" ")
+            obj = eval("{}()".format(my_list[0]))
+            # New code
+            for index in range(1, len(my_list)):
+                p_v = self.additional(my_list[index])
+                if p_v:
+                    obj.__dict__[p_v[0]] = p_v[1]
+            # End new code
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
             print("** class name missing **")
-            return
-
-        args_list = args.split()
-
-        if args_list[0] not in HBNBCommand.classes:
+        except NameError:
             print("** class doesn't exist **")
-            return
-        lst = []
-        for i in range(1, len(args_list)):
-            try:
-                key, value = args_list[i].split("=")
-                if value.startswith('"'):
-                    value = value[1:-1].replace("_", " ")
-                    if '"' in value:
-                        value = value.replace("\"", "\\\"")
-                elif '.' in value:
-                    value = float(value)
-                else:
-                    value = int(value)
-                lst.append([key, value])
-            except ValueError:
-                continue
 
-        new_instance = HBNBCommand.classes[args_list[0]]()
-        for vl in lst:
-            if hasattr(new_instance, vl[0]):
-                setattr(new_instance, vl[0], vl[1])
-        storage.new(new_instance)
-        print(new_instance.id)
-        storage.save()
+    def additional(self, arg):
+        """validates parameter and returns either None or a tuple
+        """
+        if "=" not in arg:
+            return None
+        args = arg.split("=")
+        param, value = args[0], args[1]
+        try:
+            value = eval(args[1])
+        except Exception:
+            return None
+        if type(value) is str:
+            value = value.replace("_", " ")
+        return (param, value)
 
     def help_create(self):
         """ Help information for the create method """
@@ -236,7 +240,7 @@ class HBNBCommand(cmd.Cmd):
 
         except NameError:
             print("** class doesn't exist **")
-
+    
     def help_all(self):
         """ Help information for the all command """
         print("Shows all objects, or all of a class")
