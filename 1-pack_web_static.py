@@ -7,6 +7,7 @@ import os
 
 env.hosts = ['localhost']
 
+
 def do_pack():
     """
     Compresses the web_static folder into a .tgz archive.
