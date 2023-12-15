@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-# This function generates a .tgz arhcive from the files in web_static
+# This function generates a .tgz arhcive webstatic directory.
+
 from fabric.api import local, env
 from datetime import datetime
 import os
 
-env.hosts = ['localhost']  # You can add remote servers if needed
+env.hosts = ['localhost']
 
 def do_pack():
     """
