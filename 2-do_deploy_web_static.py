@@ -7,8 +7,6 @@ from fabric.api import env, put, run
 from os.path import exists
 
 env.hosts = ['54.197.207.15', '54.236.56.251']
-env.user = 'ubuntu'
-env.key_filename = '/etc/letsencrypt/live/www.obiamaka.tech/privkey.pem'
 
 
 def do_deploy(archive_path):
