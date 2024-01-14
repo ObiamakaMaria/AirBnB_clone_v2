@@ -1,13 +1,16 @@
 footer {
-    background-color: white;
     position: fixed;
-    bottom: 0;
+    background: white;
     height: 60px;
     width: 100%;
+    bottom: 0;
     border-top: 1px solid #CCCCCC;
+}
+footer p {
+    position: absolute;
     text-align: center;
-    vertical-align: middle;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    top: 10%;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
